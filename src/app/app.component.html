@@ -1,4 +1,8 @@
-<div *ngFor="let asset of assets" class="asset-timeline">
+<div
+  *ngFor="let asset of assets; let indexOfelement = index"
+  class="asset-timeline"
+  [ngClass]="'asset-timeline-' + indexOfelement"
+>
   <div class="timeline"></div>
   <div *ngFor="let action of asset.actions" class="asset-timeline-action">
     <span>{{ action.date }}</span>
