@@ -1,12 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import moment = require('moment');
 
+interface AssetTimelineRows {
+  actionsPerRow: number;
+  sizeOfEachAction: number;
+  timelineLength: number;
+  firstDate: string;
+  lastDate: string;
+}
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   assets = [
     {
       name: 'asdad',
@@ -27,9 +34,20 @@ export class AppComponent implements OnInit {
           date: moment().add(2, 'month').add(19, 'day'),
           action: 'Replace Air Filter',
         },
+        {
+          date: moment().add(2, 'month').add(29, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(3, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(4, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
       ],
     },
-
     {
       name: 'asdad2',
       actions: [
@@ -44,6 +62,10 @@ export class AppComponent implements OnInit {
         {
           date: moment().add(2, 'month').add(10, 'day'),
           action: 'Renewal engagement',
+        },
+        {
+          date: moment().add(2, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
         },
         {
           date: moment().add(2, 'month').add(19, 'day'),
@@ -70,49 +92,96 @@ export class AppComponent implements OnInit {
           date: moment().add(2, 'month').add(19, 'day'),
           action: 'Replace Air Filter',
         },
+        {
+          date: moment().add(2, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(2, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(2, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(2, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(2, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
       ],
     },
   ];
 
-  actionSizeOnTimeline: number = 0;
-  TSfirstDate: string;
-  TSlastDate: string;
+  timelinePeriod: number = 0;
+  TSfirstDate: number;
+  TSlastDate: number;
   firstDate: moment.Moment;
   lastDate: moment.Moment;
+  assetRows: AssetTimelineRows[] = [];
+  sizeOfEachActionLabel: number;
+  eachActionSizePercent: number;
 
-  OnInit() {
-    this.calculateSizeOfEachActionLabel();
+  ngOnInit() {
+    this.loopAssets();
   }
 
-  calculateSizeOfEachActionLabel() {
-    // calculate action size
-
-    // get timestamp for start date (first date)
-    // get timestamp for end date (last date)
-    // end - start = full timeline length
-
-    this.getFirstAndLastDates();
-
-    console.log(this.lastDate, this.firstDate);
-
-    // Split the actions into 2 rows by dividing
-    // asset.actions / 2 = actions in row
-
-    // actions in row / full timeline length = size of each action label
-  }
-  getFirstAndLastDates() {
-    this.assets.forEach((asset) => {
+  loopAssets() {
+    // Get first date and last date
+    // Set timeline row, count per row and size per action
+    this.assets.forEach((asset, index) => {
       asset.actions.find((action) => {
-        if (action.date.isBefore(this.TSfirstDate)) {
+        if (
+          typeof this.TSfirstDate === 'undefined' ||
+          action.date.isBefore(this.TSfirstDate)
+        ) {
           this.firstDate = action.date;
-          this.TSfirstDate = action.date.format('X');
+          this.TSfirstDate = Number(action.date.format('X'));
         }
 
-        if (action.date.isAfter(this.TSlastDate)) {
+        if (
+          typeof this.TSlastDate === 'undefined' ||
+          action.date.isAfter(this.TSlastDate)
+        ) {
           this.lastDate = action.date;
-          this.TSlastDate = action.date.format('X');
+          this.TSlastDate = Number(action.date.format('X'));
         }
+
+        this.timelinePeriod = this.TSlastDate - this.TSfirstDate;
+        // get number of actions per row, per asset
+        this.setTimelineRow(
+          index,
+          asset.actions.length / 2,
+          this.timelinePeriod,
+          this.firstDate,
+          this.lastDate
+        );
       });
     });
+
+    console.log('this.TSlastDate', this.TSlastDate);
+    console.log('this.TSfirstDate', this.TSfirstDate);
+  }
+
+  convertSizeToPercent(timelinePeriod, size) {
+    return (size / 100 / (timelinePeriod / 100)) * 100;
+  }
+
+  setTimelineRow(index, perRow, timelinePeriod, firstDate, lastDate) {
+    // actions in row / full timeline length = size of each action label
+    this.assetRows[index] = {
+      sizeOfEachAction: this.convertSizeToPercent(
+        timelinePeriod,
+        Number(timelinePeriod / perRow)
+      ),
+      actionsPerRow: perRow,
+      timelineLength: timelinePeriod,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    } as AssetTimelineRows;
+    console.log(this.assetRows);
   }
 }
