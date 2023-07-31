@@ -1,6 +1,11 @@
-<div class='container'>
-  <div class='box'>
-    Hello, {{name}} ! 
+<div *ngFor="let asset of assets" class="asset-timeline">
+  <div class="timeline"></div>
+  <div *ngFor="let action of asset.actions" class="asset-timeline-action">
+    <span>{{ action.date }}</span>
+    <div class="action-label">
+      {{ action.action }}
+    </div>
+    <div class="action-timeline-line-to-dot"></div>
+    <div class="action-timeline-dot"></div>
   </div>
 </div>
-

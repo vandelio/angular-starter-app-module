@@ -1,0 +1,66 @@
+$actionTimelineDotOffeset: 8%;
+
+.asset-timeline {
+  background: #ccc;
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: auto;
+  min-height: 150px;
+  position: relative;
+
+  .timeline {
+    height: 3px;
+    width: 100%;
+    background: #000;
+    position: absolute;
+    top: 50%;
+    bottom: 50%;
+  }
+
+  .asset-timeline-action {
+    display: flex;
+    align-items: center;
+    position: relative;
+    span {
+      padding: 5px;
+    }
+    .action-label {
+      background: #ddd;
+      border-radius: 10px;
+      padding: 5px;
+    }
+
+    .action-timeline-dot {
+      background: #ddd;
+      border-radius: 100%;
+      width: 20px;
+      height: 20px;
+      position: relative;
+    }
+    .action-timeline-line-to-dot {
+      position: relative;
+      height: 10%;
+      width: 2px;
+      background: #ddd;
+    }
+
+    /// adjust place to timeline
+    &:nth-child(odd) {
+      flex-direction: column;
+
+      .action-timeline-dot {
+        transform: translateY($actionTimelineDotOffeset);
+      }
+    }
+
+    &:nth-child(even) {
+      flex-direction: column-reverse;
+
+      .action-timeline-dot {
+        transform: translateY(-$actionTimelineDotOffeset);
+      }
+    }
+  }
+}
