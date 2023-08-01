@@ -1,0 +1,117 @@
+$actionTimelineDotOffeset: 4px;
+$blackColor: #000;
+$whiteColor: #fff;
+
+//mixins
+@mixin border-radius {
+  border-radius: 20px;
+}
+
+// Timeline line
+.timeline {
+  height: 3px;
+  width: 100%;
+  background: #000;
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
+}
+
+//asset timeline
+.asset-timeline {
+  background: #ccc;
+  padding: 35px 15px 35px 15px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  height: auto;
+  min-height: 160px;
+  position: relative;
+  margin-bottom: 2px;
+
+  .asset-identifier {
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: row;
+    margin: 8px;
+    > div {
+      padding: 3px;
+      margin-right: 3px;
+      background: #fff;
+      @include border-radius;
+    }
+  }
+
+  .asset-timeline-action {
+    display: flex;
+    align-items: center;
+    position: relative;
+    height: inherit;
+    &.today {
+      width: 100px;
+      margin-left: 0;
+      position: relative;
+      left: 0;
+      margin-top: auto;
+      margin-bottom: auto;
+      flex: 1;
+      .action-label {
+        color: $whiteColor;
+        background: $blackColor;
+        border: 2px solid #fff;
+      }
+    }
+
+    span {
+      padding: 5px;
+      font-size: 13px;
+    }
+    .action-label {
+      @include border-radius;
+
+      background: var(--bgcolor);
+      padding: 5px 12px;
+      white-space: nowrap;
+    }
+
+    .action-timeline-dot {
+      border-radius: 100%;
+      width: 20px;
+      height: 20px;
+      position: relative;
+      background: var(--bgcolor);
+    }
+    .action-timeline-line-to-dot {
+      position: relative;
+      height: 10.5%; // controls space from dot to action label
+      width: 2px;
+      background: var(--bgcolor);
+    }
+
+    /// adjust place to timeline
+    &:nth-child(odd) {
+      flex-direction: column;
+    }
+
+    &:nth-child(even) {
+      flex-direction: column-reverse;
+    }
+  }
+
+  &.asset-timeline-0 {
+    --bgcolor: rgb(158, 109, 250);
+  }
+  &.asset-timeline-1 {
+    --bgcolor: rgb(255, 135, 135);
+  }
+
+  &.asset-timeline-2 {
+    --bgcolor: rgb(176, 243, 131);
+  }
+
+  &.asset-timeline-3 {
+    --bgcolor: rgb(155, 240, 255);
+  }
+}
