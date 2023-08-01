@@ -17,6 +17,7 @@ export class MilestoneTimelineComponent implements OnInit {
   count: number = 0;
   daysInTimeline: number = 0;
   daysArray: TimelineDays[] = [];
+  countMilestones: number = 0;
 
   ngOnInit() {
     // define timeline per asset
@@ -27,7 +28,7 @@ export class MilestoneTimelineComponent implements OnInit {
 
   defineTimeline() {
     let firstDate, lastDate;
-    this.assets.map((asset, index) => {
+    this.assets.forEach((asset, index) => {
       asset.actions.map((action) => {
         if (action.date.isBefore(firstDate)) {
           firstDate = action.date;
@@ -80,6 +81,7 @@ export class MilestoneTimelineComponent implements OnInit {
   }
 
   addMilestone(milestone, asset, firstDate) {
+    this.countMilestones++;
     switch (milestone.action) {
       case 'Today':
         //Prepend as the first
@@ -109,8 +111,8 @@ export class MilestoneTimelineComponent implements OnInit {
 
     // add an entry for each of the days in the period
     this.count = 0;
-    while (this.count <= this.daysInTimeline) {
-      this.daysArray[index].days.push(null);
+    while (this.count <= this.daysInTimeline + this.countMilestones) {
+      this.daysArray[index].days[this.count] = [];
       this.count++;
     }
   }
@@ -129,13 +131,11 @@ export class MilestoneTimelineComponent implements OnInit {
     console.log('after ', this.daysArray);
   }
   addAction(action, index, daysFromStart) {
-    // add at index in none present, otherwise add one until none
-    if (this.daysArray[index].days[daysFromStart] === null) {
-      this.daysArray[index].days[daysFromStart] = [];
-    }
-    this.daysArray[index].days[daysFromStart].push({
-      ...action,
-    });
+    console.log(
+      'addaction this.daysArray[index].days[daysFromStart]',
+      this.daysArray[index].days[daysFromStart]
+    );
+    this.daysArray[index].days[daysFromStart].push({ ...action });
   }
 
   getPeriod(asset) {

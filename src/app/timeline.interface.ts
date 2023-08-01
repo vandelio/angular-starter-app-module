@@ -18,7 +18,7 @@ export interface AssetAction {
 
 export interface TimelineDays {
   name?: string;
-  days?: (AssetAction[] | null)[];
+  days?: (AssetAction[] | null[])[];
   firstDate?: moment.Moment;
   lastDate?: moment.Moment;
 }
