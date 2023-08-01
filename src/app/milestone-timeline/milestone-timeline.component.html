@@ -10,26 +10,21 @@
   <div class="timeline"></div>
 
   <ng-container *ngFor="let day of asset.days">
-    <div class="asset-timeline-action-wrap">
-      <div
-        class="emptyDay asset-timeline-action"
-        *ngIf="day.length === 0"
-      ></div>
-      <div
-        class="asset-timeline-action"
-        *ngFor="let action of day"
-        [class.action]="action?.action && !action?.type"
-        [class.milestone]="action?.type === 'milestone'"
-      >
-        <span class="action-label-date">
-          {{ action.date.format('MMM Do, YYYY') }}
-        </span>
-        <div class="action-label">
-          {{ action.action }}
-        </div>
-        <div class="action-timeline-line-to-dot"></div>
-        <div class="action-timeline-dot"></div>
+    <div class="emptyDay asset-timeline-action" *ngIf="day.length === 0"></div>
+    <div
+      class="asset-timeline-action"
+      *ngFor="let action of day"
+      [class.action]="action?.action && !action?.type"
+      [class.milestone]="action?.type === 'milestone'"
+    >
+      <span class="action-label-date">
+        {{ action.date.format('MMM Do, YYYY') }}
+      </span>
+      <div class="action-label">
+        {{ action.action }}
       </div>
+      <div class="action-timeline-line-to-dot"></div>
+      <div class="action-timeline-dot"></div>
     </div>
   </ng-container>
 </div>

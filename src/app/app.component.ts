@@ -13,6 +13,22 @@ export class AppComponent {
       name: 'asdad',
       actions: [
         {
+          date: moment(),
+          action: 'Today',
+          type: 'milestone',
+        },
+        {
+          date: moment().endOf('year'),
+          action: 'EndOfYeaar',
+          type: 'milestone',
+        },
+        {
+          date: moment().add(1, 'year').add(6, 'month').add(7, 'day'),
+          action: 'ContractEnd',
+          type: 'milestone',
+        },
+
+        {
           date: moment().add(1, 'day'),
           action: 'Consultation Call',
         },
