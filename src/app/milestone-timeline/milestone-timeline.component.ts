@@ -17,7 +17,7 @@ export class MilestoneTimelineComponent implements OnInit {
   firstDate: moment.Moment;
   lastDate: moment.Moment;
 
-  daysArray: AssetInTimeline[] = [];
+  daysArray: AssetInTimeline[][] = [];
 
   assetRows: AssetTimelineRows[] = [];
   sizeOfEachActionLabel: number;
@@ -25,6 +25,11 @@ export class MilestoneTimelineComponent implements OnInit {
 
   ngOnInit() {
     this.loopAssets();
+
+    // add today to each asset
+    this.addTodayLabel();
+    // define timeline per asset
+    this.defineTimeline();
   }
 
   loopAssets() {
@@ -37,61 +42,72 @@ export class MilestoneTimelineComponent implements OnInit {
         type: 'first',
       });
 
-      // find the first and last date, to define timeline length
-      this.defineTimeline(asset, index);
-      this.addActionsToDaysArray(asset, index);
       return asset;
     });
 
     console.log('this.TSlastDate', this.TSlastDate);
     console.log('this.TSfirstDate', this.TSfirstDate);
   }
+  addTodayLabel() {
+    this.assets.map((asset, index) => {
+      [...asset.actions].unshift({
+        date: moment(),
+        action: 'Today',
+        type: 'first',
+      });
 
-  defineTimeline(asset, index) {
-    asset.actions.find((action) => {
-      if (
-        typeof this.TSfirstDate === 'undefined' ||
-        action.date.isBefore(this.TSfirstDate)
-      ) {
-        this.firstDate = action.date;
-        this.TSfirstDate = Number(action.date.format('X'));
-      }
-
-      if (
-        typeof this.TSlastDate === 'undefined' ||
-        action.date.isAfter(this.TSlastDate)
-      ) {
-        this.lastDate = action.date;
-        this.TSlastDate = Number(action.date.format('X'));
-      }
-      //this.timelinePeriod = this.TSlastDate - this.TSfirstDate;
-
-      // get number of actions per row, per asset
-      /* this.setTimelineRow(
-        index,
-        Math.round(asset.actions.length / 2),
-        this.timelinePeriod,
-        this.firstDate,
-        this.lastDate
-      );*/
+      return {
+        ...asset,
+        actions: asset.actions,
+      };
     });
-
-    // calculate how many days is in between first and last date.
-    this.daysInTimeline = this.lastDate.diff(this.firstDate, 'days');
-    console.log('daysInTimeline', this.daysInTimeline);
-
-    let count = 0;
-    while (count <= this.daysInTimeline) {
-      // check first date diff to
-      this.daysArray.push();
-      count++;
-    }
   }
 
-  addActionsToDaysArray(asset, index) {
-    asset.actions.map((action) => {
-      this.daysArray[index][action.date.diff(this.firstDate, 'days')] = action;
+  defineTimeline() {
+    let firstDate, lastDate;
+    this.assets.forEach((asset, index) => {
+      asset.actions.find((action) => {
+        if (action.date.isBefore(firstDate)) {
+          firstDate = action.date;
+        }
+
+        if (action.date.isAfter(lastDate)) {
+          lastDate = action.date;
+        }
+        //this.timelinePeriod = this.TSlastDate - this.TSfirstDate;
+
+        // get number of actions per row, per asset
+        /* this.setTimelineRow(
+          index,
+          Math.round(asset.actions.length / 2),
+          this.timelinePeriod,
+          this.firstDate,
+          this.lastDate
+        );*/
+      });
+
+      // calculate how many days is in between first and last date.
+      this.daysInTimeline = this.lastDate.diff(firstDate, 'days');
+      console.log('daysInTimeline', this.daysInTimeline);
+
+      let count = 0;
+      while (count <= this.daysInTimeline) {
+        // check first date diff to
+        this.daysArray[index].push();
+        count++;
+      }
+
+      // add actions to days array
+      this.addActionsToDaysArray(asset, index, firstDate);
     });
+  }
+
+  addActionsToDaysArray(asset, index, firstDate) {
+    asset.actions.map((action) => {
+      this.daysArray[index][action.date.diff(firstDate, 'days')] = action;
+    });
+
+    console.log(this.daysArray);
   }
 
   convertSizeToPercent(timelinePeriod, size) {
