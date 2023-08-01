@@ -20,7 +20,7 @@ $whiteColor: #fff;
 //asset timeline
 .asset-timeline {
   background: #ccc;
-  padding: 35px 15px 35px 15px;
+  padding: 35px 35px 35px 35px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -52,8 +52,7 @@ $whiteColor: #fff;
     flex-direction: column-reverse;
 
     .action-timeline-dot,
-    .action-timeline-line-to-dot,
-    .action-label-date {
+    .action-timeline-line-to-dot {
       display: none;
     }
 
@@ -64,7 +63,6 @@ $whiteColor: #fff;
       left: 0;
       margin-top: auto;
       margin-bottom: auto;
-      flex: 1;
       .action-label {
         color: $whiteColor;
         background: $blackColor;

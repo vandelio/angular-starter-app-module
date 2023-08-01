@@ -20,6 +20,8 @@ export class MilestoneTimelineComponent implements OnInit {
   ngOnInit() {
     // define timeline per asset
     this.defineTimeline();
+
+    console.log('test', moment().diff(moment(), 'days'));
   }
 
   defineTimeline() {
@@ -34,16 +36,6 @@ export class MilestoneTimelineComponent implements OnInit {
         }
       });
 
-      // add today to each asset
-      asset = this.addMilestone(
-        {
-          date: moment(),
-          action: 'Today',
-          type: 'milestone',
-        },
-        { ...asset },
-        firstDate
-      );
       // add endOfYear to each asset
       this.addMilestone(
         {
@@ -66,6 +58,17 @@ export class MilestoneTimelineComponent implements OnInit {
         firstDate
       );
 
+      // add today to each asset
+      this.addMilestone(
+        {
+          date: moment(),
+          action: 'Today',
+          type: 'milestone',
+        },
+        { ...asset },
+        firstDate
+      );
+
       // calculate how many days is in between first and last date.
       this.daysInTimeline = lastDate.diff(firstDate, 'days');
       // create days arrays, which controls timeline
@@ -79,12 +82,12 @@ export class MilestoneTimelineComponent implements OnInit {
     switch (milestone.action) {
       case 'Today':
         //Prepend as the first
-        asset.actions.unshift(milestone);
+        asset.actions.splice(0, 0, milestone);
         break;
       case 'EndOfYear':
         //Add at specific index (days from first date + 1(today))
         asset.actions.splice(
-          milestone.date.diff(firstDate, 'days') + 1,
+          milestone.date.diff(firstDate, 'days'),
           0,
           milestone
         );
@@ -112,17 +115,25 @@ export class MilestoneTimelineComponent implements OnInit {
   }
 
   addActionsToDaysArray(asset, index, firstDate, lastDate) {
+    console.log('before daysArray', asset.actions);
+    this.daysArray[index].firstDate = firstDate;
+    this.daysArray[index].lastDate = lastDate;
+    this.daysArray[index].name = asset.name;
+
     asset.actions.map((action) => {
-      this.daysArray[index].firstDate = firstDate;
-      this.daysArray[index].lastDate = lastDate;
-      this.daysArray[index].name = asset.name;
-      this.daysArray[index].days[action.date.diff(firstDate, 'days')] = {
-        ...action,
-        type: 'action',
-      };
+      // add action to the specific day
+      this.addAction(action, index, action.date.diff(firstDate, 'days'));
     });
 
     console.log(this.daysArray);
+  }
+  addAction(action, index, daysFromStart) {
+    // add at index in none present, otherwise add one until none
+    this.daysArray[index].days[daysFromStart] === null
+      ? (this.daysArray[index].days[action.date.diff(daysFromStart, 'days')] = {
+          ...action,
+        })
+      : this.addAction(action, index, daysFromStart + 1);
   }
 
   getPeriod(asset) {
