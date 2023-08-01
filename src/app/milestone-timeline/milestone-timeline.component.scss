@@ -49,8 +49,15 @@ $whiteColor: #fff;
     align-items: center;
     position: relative;
     height: inherit;
+    flex-direction: column-reverse;
 
-    &.today {
+    .action-timeline-dot,
+    .action-timeline-line-to-dot,
+    .action-label-date {
+      display: none;
+    }
+
+    &.milestone {
       width: 100px;
       margin-left: 0;
       position: relative;
@@ -62,6 +69,26 @@ $whiteColor: #fff;
         color: $whiteColor;
         background: $blackColor;
         border: 2px solid #fff;
+      }
+    }
+    &.action {
+      .action-timeline-dot {
+        display: block;
+        border-radius: 100%;
+        width: 20px;
+        height: 20px;
+        position: relative;
+        background: var(--bgcolor);
+      }
+      .action-timeline-line-to-dot {
+        display: block;
+        position: relative;
+        height: 10.5%; // controls space from dot to action label
+        width: 2px;
+        background: var(--bgcolor);
+      }
+      .action-label-date {
+        display: block;
       }
     }
 
@@ -77,19 +104,6 @@ $whiteColor: #fff;
       white-space: nowrap;
     }
 
-    .action-timeline-dot {
-      border-radius: 100%;
-      width: 20px;
-      height: 20px;
-      position: relative;
-      background: var(--bgcolor);
-    }
-    .action-timeline-line-to-dot {
-      position: relative;
-      height: 10.5%; // controls space from dot to action label
-      width: 2px;
-      background: var(--bgcolor);
-    }
     &.action {
       flex-direction: column-reverse;
     }

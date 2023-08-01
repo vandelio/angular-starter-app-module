@@ -1,6 +1,10 @@
 import { Component, Input, OnInit } from '@angular/core';
 import moment = require('moment');
-import { AssetInTimeline, AssetTimelineRows } from '../timeline.interface';
+import {
+  AssetInTimeline,
+  AssetTimelineRows,
+  TimelineDays,
+} from '../timeline.interface';
 
 @Component({
   selector: 'milestone-timeline',
@@ -10,18 +14,8 @@ import { AssetInTimeline, AssetTimelineRows } from '../timeline.interface';
 export class MilestoneTimelineComponent implements OnInit {
   @Input() assets: AssetInTimeline[];
 
-  localAssets: AssetInTimeline[];
   daysInTimeline: number = 0;
-  TSfirstDate: number;
-  TSlastDate: number;
-  firstDate: moment.Moment;
-  lastDate: moment.Moment;
-
-  daysArray: AssetInTimeline[] = [];
-
-  assetRows: AssetTimelineRows[] = [];
-  sizeOfEachActionLabel: number;
-  eachActionSizePercent: number;
+  daysArray: TimelineDays[] = [];
 
   ngOnInit() {
     // define timeline per asset
@@ -31,82 +25,111 @@ export class MilestoneTimelineComponent implements OnInit {
   defineTimeline() {
     let firstDate, lastDate;
     this.assets.forEach((asset, index) => {
-      asset.actions.find((action) => {
+      asset.actions.map((action) => {
         if (action.date.isBefore(firstDate)) {
           firstDate = action.date;
         }
-
         if (action.date.isAfter(lastDate)) {
           lastDate = action.date;
         }
-        //this.timelinePeriod = this.TSlastDate - this.TSfirstDate;
+      });
 
-        // get number of actions per row, per asset
-        /* this.setTimelineRow(
-          index,
-          Math.round(asset.actions.length / 2),
-          this.timelinePeriod,
-          this.firstDate,
-          this.lastDate
-        );*/
-      });
       // add today to each asset
-      asset.actions.unshift({
-        date: moment(),
-        action: 'Today',
-        type: 'first',
-      });
+      asset = this.addMilestone(
+        {
+          date: moment(),
+          action: 'Today',
+          type: 'milestone',
+        },
+        { ...asset },
+        firstDate
+      );
+      // add endOfYear to each asset
+      this.addMilestone(
+        {
+          date: moment().endOf('year'),
+          action: 'EndOfYear',
+          type: 'milestone',
+        },
+        { ...asset },
+        firstDate
+      );
+
+      // add contractEnd to each asset
+      this.addMilestone(
+        {
+          date: moment().add(2, 'year').add(1, 'month').add(6, 'day'),
+          action: 'ContractEnd',
+          type: 'milestone',
+        },
+        { ...asset },
+        firstDate
+      );
 
       // calculate how many days is in between first and last date.
       this.daysInTimeline = lastDate.diff(firstDate, 'days');
       // create days arrays, which controls timeline
       this.createDaysArray(index);
       // add actions to days array
-      this.addActionsToDaysArray(asset, index, firstDate);
+      this.addActionsToDaysArray(asset, index, firstDate, lastDate);
     });
+  }
+
+  addMilestone(milestone, asset, firstDate) {
+    switch (milestone.action) {
+      case 'Today':
+        //Prepend as the first
+        asset.actions.unshift(milestone);
+        break;
+      case 'EndOfYear':
+        //Add at specific index (days from first date + 1(today))
+        asset.actions.splice(
+          milestone.date.diff(firstDate, 'days') + 1,
+          0,
+          milestone
+        );
+        break;
+      case 'ContractEnd':
+        //Contract end is the final date of timeline
+        asset.actions.push(milestone);
+        break;
+      default:
+        console.log(`Sorry no milestone to add by that name.`);
+    }
+    return asset;
   }
 
   createDaysArray(index) {
     // Create array to feed the days
-    this.daysArray[index] = { actions: [] };
+    this.daysArray[index] = { days: [] };
 
     // add an entry for each of the days in the period
     let count = 0;
     while (count <= this.daysInTimeline) {
-      this.daysArray[index].actions.push(null);
+      this.daysArray[index].days.push(null);
       count++;
     }
   }
 
-  addActionsToDaysArray(asset, index, firstDate) {
+  addActionsToDaysArray(asset, index, firstDate, lastDate) {
     asset.actions.map((action) => {
-      this.daysArray[index].firstDate = asset.firstDate;
-      this.daysArray[index].lastDate = asset.lastDate;
+      this.daysArray[index].firstDate = firstDate;
+      this.daysArray[index].lastDate = lastDate;
       this.daysArray[index].name = asset.name;
-      this.daysArray[index].actions[action.date.diff(firstDate, 'days')] = {
+      this.daysArray[index].days[action.date.diff(firstDate, 'days')] = {
         ...action,
+        type: 'action',
       };
     });
 
     console.log(this.daysArray);
   }
 
-  convertSizeToPercent(timelinePeriod, size) {
-    return (size / 100 / (timelinePeriod / 100)) * 100;
-  }
-
-  setTimelineRow(index, perRow, timelinePeriod, firstDate, lastDate) {
-    // actions in row / full timeline length = size of each action label
-    this.assetRows[index] = {
-      sizeOfEachAction: this.convertSizeToPercent(
-        timelinePeriod,
-        Number(timelinePeriod / perRow)
-      ),
-      actionsPerRow: perRow,
-      timelineLength: timelinePeriod,
-      firstDate: firstDate,
-      lastDate: lastDate,
-    } as AssetTimelineRows;
-    console.log(this.assetRows);
+  getPeriod(asset) {
+    return (
+      asset.firstDate.format('MMM Do YY') +
+      '-' +
+      asset.lastDate.format('MMM Do YY')
+    );
   }
 }

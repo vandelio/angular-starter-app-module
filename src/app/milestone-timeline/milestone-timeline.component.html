@@ -5,30 +5,25 @@
 >
   <div class="asset-identifier">
     <div>Asset: {{ asset.name }}.</div>
-    <div>
-      Period: {{ assetRows[indexOfelement].firstDate.format('MMM Do YY') }} -
-      {{ assetRows[indexOfelement].lastDate.format('MMM Do YY') }}
-    </div>
+    <div>Period: {{ getPeriod(asset) }}</div>
   </div>
   <div class="timeline"></div>
 
   <div
-    *ngFor="let action of asset"
+    *ngFor="let day of asset.days"
     class="asset-timeline-action"
-    [class.action]="action.action ? true : false"
+    [class.action]="day?.type === 'action'"
+    [class.milestone]="day?.type === 'milestone'"
   >
-    <ng-container *ngIf="action.action">
+    <ng-container *ngIf="day?.action">
       <span class="action-label-date">
-        {{ action.date.format('MMM Do, YYYY') }}
+        {{ day.date.format('MMM Do, YYYY') }}
       </span>
       <div class="action-label">
-        {{ action.action }}
+        {{ day?.type === 'milestone' ? day.date : day.action }}
       </div>
-      <div
-        *ngIf="action.type !== 'first'"
-        class="action-timeline-line-to-dot"
-      ></div>
-      <div *ngIf="action.type !== 'first'" class="action-timeline-dot"></div>
+      <div class="action-timeline-line-to-dot"></div>
+      <div class="action-timeline-dot"></div>
     </ng-container>
   </div>
 </div>
