@@ -14,6 +14,7 @@ import {
 export class MilestoneTimelineComponent implements OnInit {
   @Input() assets: AssetInTimeline[];
 
+  count: number = 0;
   daysInTimeline: number = 0;
   daysArray: TimelineDays[] = [];
 
@@ -107,10 +108,10 @@ export class MilestoneTimelineComponent implements OnInit {
     this.daysArray[index] = { days: [] };
 
     // add an entry for each of the days in the period
-    let count = 0;
-    while (count <= this.daysInTimeline) {
+    this.count = 0;
+    while (this.count <= this.daysInTimeline) {
       this.daysArray[index].days.push(null);
-      count++;
+      this.count++;
     }
   }
 
