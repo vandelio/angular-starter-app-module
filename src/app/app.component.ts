@@ -8,26 +8,37 @@ interface AssetTimelineRows {
   firstDate: string;
   lastDate: string;
 }
+
+interface AssetInTimeline {
+  name: string;
+  actions: AssetActions[];
+}
+interface AssetActions {
+  date: moment.Moment;
+  action: string;
+  type?: string; // used to identify the first inject : today block
+}
+
 @Component({
   selector: 'my-app',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  assets = [
+  assets: AssetInTimeline[] = [
     {
       name: 'asdad',
       actions: [
         {
-          date: moment().add(1, 'month').add(1, 'day'),
+          date: moment().subtract(4, 'month').add(1, 'day'),
           action: 'Consultation Call',
         },
         {
-          date: moment().add(1, 'month').add(10, 'day'),
+          date: moment().subtract(3, 'month').add(10, 'day'),
           action: 'Preventive maintenance',
         },
         {
-          date: moment().add(2, 'month').add(10, 'day'),
+          date: moment().subtract(2, 'month').add(10, 'day'),
           action: 'Renewal engagement',
         },
         {
@@ -133,6 +144,11 @@ export class AppComponent {
     // Get first date and last date
     // Set timeline row, count per row and size per action
     this.assets.forEach((asset, index) => {
+      asset.actions.unshift({
+        date: moment(),
+        action: 'Today',
+        type: 'first',
+      });
       asset.actions.find((action) => {
         if (
           typeof this.TSfirstDate === 'undefined' ||
@@ -154,7 +170,7 @@ export class AppComponent {
         // get number of actions per row, per asset
         this.setTimelineRow(
           index,
-          asset.actions.length / 2,
+          Math.round(asset.actions.length / 2),
           this.timelinePeriod,
           this.firstDate,
           this.lastDate

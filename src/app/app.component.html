@@ -16,8 +16,11 @@
     *ngFor="let action of asset.actions"
     class="asset-timeline-action"
     [style.width]="assetRows[indexOfelement].sizeOfEachAction + '%'"
+    [class.today]="action.type === 'first'"
   >
-    <span>{{ action.date.format('MMM Do, YYYY') }}</span>
+    <span *ngIf="action.type !== 'first'">{{
+      action.date.format('MMM Do, YYYY')
+    }}</span>
     <div class="action-label">
       {{ action.action }}
     </div>

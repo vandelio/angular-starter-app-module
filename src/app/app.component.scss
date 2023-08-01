@@ -1,4 +1,4 @@
-$actionTimelineDotOffeset: 8%;
+$actionTimelineDotOffeset: 4px;
 
 // Timeline line
 .timeline {
@@ -13,7 +13,7 @@ $actionTimelineDotOffeset: 8%;
 //asset timeline
 .asset-timeline {
   background: #ccc;
-  padding: 35px 15px 15px 15px;
+  padding: 35px 15px 35px 15px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
@@ -42,6 +42,13 @@ $actionTimelineDotOffeset: 8%;
     align-items: center;
     position: relative;
     height: inherit;
+    &.today {
+      width: 100px;
+      margin-left: 0;
+      left: 0;
+      margin-right: auto;
+    }
+
     span {
       padding: 5px;
       font-size: 13px;
@@ -62,7 +69,7 @@ $actionTimelineDotOffeset: 8%;
     }
     .action-timeline-line-to-dot {
       position: relative;
-      height: 9%; // controls space from dot to action label
+      height: 10.5%; // controls space from dot to action label
       width: 2px;
       background: var(--bgcolor);
     }
@@ -70,18 +77,10 @@ $actionTimelineDotOffeset: 8%;
     /// adjust place to timeline
     &:nth-child(odd) {
       flex-direction: column;
-
-      .action-timeline-dot {
-        transform: translateY($actionTimelineDotOffeset);
-      }
     }
 
     &:nth-child(even) {
       flex-direction: column-reverse;
-
-      .action-timeline-dot {
-        transform: translateY(-$actionTimelineDotOffeset);
-      }
     }
   }
 
