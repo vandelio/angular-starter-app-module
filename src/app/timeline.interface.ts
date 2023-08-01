@@ -8,9 +8,9 @@ export interface AssetTimelineRows {
 
 export interface AssetInTimeline {
   name?: string;
-  actions?: AssetActions[] | null;
-  firstDate: moment.Moment;
-  lastDate: moment.Moment;
+  actions?: (AssetActions | null)[];
+  firstDate?: moment.Moment;
+  lastDate?: moment.Moment;
 }
 export interface AssetActions {
   date: moment.Moment;

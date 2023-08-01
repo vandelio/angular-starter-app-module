@@ -59,24 +59,23 @@ export class MilestoneTimelineComponent implements OnInit {
 
       // calculate how many days is in between first and last date.
       this.daysInTimeline = lastDate.diff(firstDate, 'days');
-      console.log('daysInTimeline', this.daysInTimeline);
-
-      let count = 0;
-      this.daysArray[index] = {
-        name: '',
-        actions: [],
-        firstDate: '',
-        lastDate: '',
-      };
-      while (count <= this.daysInTimeline) {
-        // check first date diff to
-        this.daysArray[index].actions.push(null);
-        count++;
-      }
-
+      // create days arrays, which controls timeline
+      this.createDaysArray(index);
       // add actions to days array
       this.addActionsToDaysArray(asset, index, firstDate);
     });
+  }
+
+  createDaysArray(index) {
+    // Create array to feed the days
+    this.daysArray[index] = { actions: [] };
+
+    // add an entry for each of the days in the period
+    let count = 0;
+    while (count <= this.daysInTimeline) {
+      this.daysArray[index].actions.push(null);
+      count++;
+    }
   }
 
   addActionsToDaysArray(asset, index, firstDate) {
