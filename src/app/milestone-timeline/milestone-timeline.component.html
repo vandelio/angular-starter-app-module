@@ -12,17 +12,23 @@
   </div>
   <div class="timeline"></div>
 
-  <div *ngFor="let action of daysInTimeline" class="asset-timeline-action">
-    <span class="action-label-date">
-      {{ action.date.format('MMM Do, YYYY') }}
-    </span>
-    <div class="action-label">
-      {{ action.action }}
-    </div>
-    <div
-      *ngIf="action.type !== 'first'"
-      class="action-timeline-line-to-dot"
-    ></div>
-    <div *ngIf="action.type !== 'first'" class="action-timeline-dot"></div>
+  <div
+    *ngFor="let action of asset"
+    class="asset-timeline-action"
+    [class.action]="action.action ? true : false"
+  >
+    <ng-container *ngIf="action.action">
+      <span class="action-label-date">
+        {{ action.date.format('MMM Do, YYYY') }}
+      </span>
+      <div class="action-label">
+        {{ action.action }}
+      </div>
+      <div
+        *ngIf="action.type !== 'first'"
+        class="action-timeline-line-to-dot"
+      ></div>
+      <div *ngIf="action.type !== 'first'" class="action-timeline-dot"></div>
+    </ng-container>
   </div>
 </div>

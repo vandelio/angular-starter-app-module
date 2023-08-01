@@ -49,6 +49,7 @@ $whiteColor: #fff;
     align-items: center;
     position: relative;
     height: inherit;
+
     &.today {
       width: 100px;
       margin-left: 0;
@@ -89,14 +90,11 @@ $whiteColor: #fff;
       width: 2px;
       background: var(--bgcolor);
     }
-
-    /// adjust place to timeline
-    &:nth-child(odd) {
-      flex-direction: column;
-    }
-
-    &:nth-child(even) {
+    &.action {
       flex-direction: column-reverse;
+    }
+    &:nth-child(odd of .action) {
+      flex-direction: column;
     }
   }
 

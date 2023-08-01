@@ -17,50 +17,15 @@ export class MilestoneTimelineComponent implements OnInit {
   firstDate: moment.Moment;
   lastDate: moment.Moment;
 
-  daysArray: AssetInTimeline[][] = [];
+  daysArray: AssetInTimeline[] = [];
 
   assetRows: AssetTimelineRows[] = [];
   sizeOfEachActionLabel: number;
   eachActionSizePercent: number;
 
   ngOnInit() {
-    this.loopAssets();
-
-    // add today to each asset
-    this.addTodayLabel();
     // define timeline per asset
     this.defineTimeline();
-  }
-
-  loopAssets() {
-    // Get first date and last date
-    // Set timeline row, count per row and size per action
-    this.assets.map((asset, index) => {
-      asset.actions.unshift({
-        date: moment(),
-        action: 'Today',
-        type: 'first',
-      });
-
-      return asset;
-    });
-
-    console.log('this.TSlastDate', this.TSlastDate);
-    console.log('this.TSfirstDate', this.TSfirstDate);
-  }
-  addTodayLabel() {
-    this.assets.map((asset, index) => {
-      [...asset.actions].unshift({
-        date: moment(),
-        action: 'Today',
-        type: 'first',
-      });
-
-      return {
-        ...asset,
-        actions: asset.actions,
-      };
-    });
   }
 
   defineTimeline() {
@@ -85,15 +50,27 @@ export class MilestoneTimelineComponent implements OnInit {
           this.lastDate
         );*/
       });
+      // add today to each asset
+      asset.actions.unshift({
+        date: moment(),
+        action: 'Today',
+        type: 'first',
+      });
 
       // calculate how many days is in between first and last date.
-      this.daysInTimeline = this.lastDate.diff(firstDate, 'days');
+      this.daysInTimeline = lastDate.diff(firstDate, 'days');
       console.log('daysInTimeline', this.daysInTimeline);
 
       let count = 0;
+      this.daysArray[index] = {
+        name: '',
+        actions: [],
+        firstDate: '',
+        lastDate: '',
+      };
       while (count <= this.daysInTimeline) {
         // check first date diff to
-        this.daysArray[index].push();
+        this.daysArray[index].actions.push(null);
         count++;
       }
 
@@ -104,7 +81,12 @@ export class MilestoneTimelineComponent implements OnInit {
 
   addActionsToDaysArray(asset, index, firstDate) {
     asset.actions.map((action) => {
-      this.daysArray[index][action.date.diff(firstDate, 'days')] = action;
+      this.daysArray[index].firstDate = asset.firstDate;
+      this.daysArray[index].lastDate = asset.lastDate;
+      this.daysArray[index].name = asset.name;
+      this.daysArray[index].actions[action.date.diff(firstDate, 'days')] = {
+        ...action,
+      };
     });
 
     console.log(this.daysArray);

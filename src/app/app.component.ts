@@ -17,11 +17,11 @@ export class AppComponent {
           action: 'Consultation Call',
         },
         {
-          date: moment().add(10, 'day'),
+          date: moment().add(2, 'day'),
           action: 'Preventive maintenance',
         },
         {
-          date: moment().add(1, 'month'),
+          date: moment().add(3, 'day'),
           action: 'Renewal engagement',
         },
         {
@@ -37,7 +37,7 @@ export class AppComponent {
           action: 'Replace Air Filter',
         },
         {
-          date: moment().add(3, 'month').add(4, 'day'),
+          date: moment().add(10, 'month').add(4, 'day'),
           action: 'Replace Air Filter',
         },
       ],
