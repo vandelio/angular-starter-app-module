@@ -43,6 +43,11 @@ $whiteColor: #fff;
       @include border-radius;
     }
   }
+  .asset-timeline-empty-day {
+    height: 1px;
+    width: 1px;
+    background: red;
+  }
 
   .asset-timeline-action {
     display: flex;
@@ -67,6 +72,11 @@ $whiteColor: #fff;
         color: $whiteColor;
         background: $blackColor;
         border: 2px solid #fff;
+      }
+      .action-label-date {
+        height: 0;
+        position: absolute;
+        padding: 0px 0;
       }
     }
     &.action {

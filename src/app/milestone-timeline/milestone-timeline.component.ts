@@ -27,7 +27,7 @@ export class MilestoneTimelineComponent implements OnInit {
 
   defineTimeline() {
     let firstDate, lastDate;
-    this.assets.forEach((asset, index) => {
+    this.assets.map((asset, index) => {
       asset.actions.map((action) => {
         if (action.date.isBefore(firstDate)) {
           firstDate = action.date;
@@ -51,7 +51,7 @@ export class MilestoneTimelineComponent implements OnInit {
       // add contractEnd to each asset
       this.addMilestone(
         {
-          date: moment().add(2, 'year').add(1, 'month').add(6, 'day'),
+          date: moment().add(1, 'year').add(6, 'month').add(7, 'day'),
           action: 'ContractEnd',
           type: 'milestone',
         },
@@ -126,15 +126,16 @@ export class MilestoneTimelineComponent implements OnInit {
       this.addAction(action, index, action.date.diff(firstDate, 'days'));
     });
 
-    console.log(this.daysArray);
+    console.log('after ', this.daysArray);
   }
   addAction(action, index, daysFromStart) {
     // add at index in none present, otherwise add one until none
-    this.daysArray[index].days[daysFromStart] === null
-      ? (this.daysArray[index].days[action.date.diff(daysFromStart, 'days')] = {
-          ...action,
-        })
-      : this.addAction(action, index, daysFromStart + 1);
+    if (this.daysArray[index].days[daysFromStart] === null) {
+      this.daysArray[index].days[daysFromStart] = [];
+    }
+    this.daysArray[index].days[daysFromStart].push({
+      ...action,
+    });
   }
 
   getPeriod(asset) {

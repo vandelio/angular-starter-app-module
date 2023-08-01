@@ -37,8 +37,8 @@ export class AppComponent {
           action: 'Replace Air Filter',
         },
         {
-          date: moment().add(3, 'month').add(4, 'day'),
-          action: 'Replace Air Filter',
+          date: moment().add(6, 'month').add(4, 'day'),
+          action: 'Replace Air Filter - last',
         },
       ],
     },
