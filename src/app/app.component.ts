@@ -23,7 +23,7 @@ export class AppComponent {
           type: 'milestone',
         },
         {
-          date: moment().add(1, 'year').add(6, 'month').add(7, 'day'),
+          date: moment().add(6, 'month').add(10, 'day'),
           action: 'ContractEnd',
           type: 'milestone',
         },

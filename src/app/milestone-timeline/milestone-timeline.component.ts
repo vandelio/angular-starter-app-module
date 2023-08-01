@@ -24,8 +24,6 @@ export class MilestoneTimelineComponent implements OnInit {
     this.localAssets = this.assets;
     // define timeline per asset
     this.defineTimeline();
-
-    console.log('test', moment().diff(moment(), 'days'));
   }
 
   defineTimeline() {
@@ -39,39 +37,6 @@ export class MilestoneTimelineComponent implements OnInit {
           lastDate = action.date;
         }
       });
-      /*
-      // add today to each asset
-      this.addMilestone(
-        {
-          date: moment(),
-          action: 'Today',
-          type: 'milestone',
-        },
-        index,
-        firstDate
-      );
-      // add endOfYear to each asset
-      this.addMilestone(
-        {
-          date: moment().endOf('year'),
-          action: 'EndOfYear',
-          type: 'milestone',
-        },
-        index,
-        firstDate
-      );
-
-      // add contractEnd to each asset
-      this.addMilestone(
-        {
-          date: moment().add(1, 'year').add(6, 'month').add(7, 'day'),
-          action: 'ContractEnd',
-          type: 'milestone',
-        },
-        index,
-        firstDate
-      );
-      */
 
       // calculate how many days is in between first and last date.
       this.daysInTimeline = lastDate.diff(firstDate, 'days');
@@ -83,31 +48,7 @@ export class MilestoneTimelineComponent implements OnInit {
       this.addActionsToDaysArray(asset, index, firstDate, lastDate);
     });
   }
-  /*
-  addMilestone(milestone, index, firstDate) {
-    this.countMilestones++;
-    switch (milestone.action) {
-      case 'Today':
-        //Prepend as the first
-        this.localAssets[index].actions.splice(0, 0, milestone);
-        break;
-      case 'EndOfYear':
-        //Add at specific index (days from first date + 1(today))
-        this.localAssets[index].actions.splice(
-          milestone.date.diff(firstDate, 'days'),
-          0,
-          milestone
-        );
-        break;
-      case 'ContractEnd':
-        //Contract end is the final date of timeline
-        this.localAssets[index].actions.push(milestone);
-        break;
-      default:
-        console.log(`Sorry no milestone to add by that name.`);
-    }
-  }
-*/
+
   createDaysArray(index) {
     // Create array to feed the days
     this.daysArray[index] = { days: [] };
@@ -121,7 +62,6 @@ export class MilestoneTimelineComponent implements OnInit {
   }
 
   addActionsToDaysArray(asset, index, firstDate, lastDate) {
-    console.log('before daysArray', asset.actions);
     this.daysArray[index].firstDate = firstDate;
     this.daysArray[index].lastDate = lastDate;
     this.daysArray[index].name = asset.name;
@@ -130,14 +70,8 @@ export class MilestoneTimelineComponent implements OnInit {
       // add action to the specific day
       this.addAction(action, index, action.date.diff(firstDate, 'days'));
     });
-
-    console.log('after ', this.daysArray);
   }
   addAction(action, index, daysFromStart) {
-    console.log(
-      'addaction this.daysArray[index].days[daysFromStart]',
-      this.daysArray[index].days[daysFromStart]
-    );
     this.daysArray[index].days[daysFromStart].push({ ...action });
   }
 
