@@ -58,49 +58,51 @@ export class AppComponent {
         },
       ],
     },
-    /*
     {
-      name: 'asdad2',
+      name: 'asdad32',
       actions: [
         {
-          date: moment().add(1, 'month').add(1, 'day'),
+          date: moment(),
+          action: 'Today',
+          type: 'milestone',
+        },
+        {
+          date: moment().endOf('year'),
+          action: 'EndOfYeaar',
+          type: 'milestone',
+        },
+        {
+          date: moment().add(6, 'month').add(10, 'day'),
+          action: 'ContractEnd',
+          type: 'milestone',
+        },
+
+        {
+          date: moment().add(1, 'day'),
           action: 'Consultation Call',
         },
         {
-          date: moment().add(1, 'month').add(10, 'day'),
+          date: moment().add(2, 'day'),
           action: 'Preventive maintenance',
         },
         {
-          date: moment().add(2, 'month').add(10, 'day'),
+          date: moment().add(3, 'day'),
           action: 'Renewal engagement',
         },
         {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-      ],
-    },
-    {
-      name: 'asdad 4',
-      actions: [
-        {
-          date: moment().add(1, 'month').add(1, 'day'),
-          action: 'Consultation Call',
-        },
-        {
-          date: moment().add(1, 'month').add(10, 'day'),
-          action: 'Preventive maintenance',
-        },
-        {
-          date: moment().add(2, 'month').add(10, 'day'),
+          date: moment().add(3, 'day'),
           action: 'Renewal engagement',
         },
         {
-          date: moment().add(2, 'month').add(19, 'day'),
+          date: moment().add(4, 'day'),
+          action: 'Renewal engagement',
+        },
+        {
+          date: moment().add(1, 'month').add(19, 'day'),
+          action: 'Replace Air Filter',
+        },
+        {
+          date: moment().add(2, 'month').add(1, 'day'),
           action: 'Replace Air Filter',
         },
         {
@@ -108,24 +110,11 @@ export class AppComponent {
           action: 'Replace Air Filter',
         },
         {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
+          date: moment().add(6, 'month').add(4, 'day'),
+          action: 'Replace Air Filter - last',
         },
       ],
     },
-    */
   ];
 
   ngOnInit() {}

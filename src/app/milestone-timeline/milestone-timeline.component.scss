@@ -49,6 +49,10 @@ $whiteColor: #fff;
     background: red;
   }
 
+  .day {
+    display: flex;
+    flex-direction: column;
+  }
   .asset-timeline-action {
     display: flex;
     align-items: center;
@@ -77,16 +81,18 @@ $whiteColor: #fff;
         height: 0;
         position: absolute;
         padding: 0px 0;
+        white-space: nowrap;
       }
     }
     &.action {
       .action-timeline-dot {
         display: block;
         border-radius: 100%;
-        width: 20px;
-        height: 20px;
+        width: 15px;
+        height: 15px;
         position: relative;
         background: var(--bgcolor);
+        border: 3px solid $whiteColor;
       }
       .action-timeline-line-to-dot {
         display: block;
