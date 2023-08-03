@@ -72,10 +72,12 @@ $whiteColor: #fff;
       left: 0;
       margin-top: auto;
       margin-bottom: auto;
+      flex: 0;
       .action-label {
         color: $whiteColor;
         background: $blackColor;
         border: 2px solid #fff;
+        font-size: 0.8rem;
       }
       .action-label-date {
         height: 0;
