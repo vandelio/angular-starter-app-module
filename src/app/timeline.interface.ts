@@ -22,3 +22,8 @@ export interface TimelineDays {
   firstDate?: moment.Moment;
   lastDate?: moment.Moment;
 }
+
+export interface TimelineRows {
+  odd: TimelineDays[];
+  even: TimelineDays[];
+}
