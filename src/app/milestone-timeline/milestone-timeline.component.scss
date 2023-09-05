@@ -9,12 +9,11 @@ $whiteColor: #fff;
 
 // Timeline line
 .timeline {
-  height: 3px;
+  height: 8px;
   width: 100%;
   background: #000;
-  position: absolute;
-  top: 50%;
-  bottom: 50%;
+  position: relative;
+
   z-index: 0;
 }
 
@@ -29,6 +28,7 @@ $whiteColor: #fff;
   min-height: 160px;
   position: relative;
   margin-bottom: 2px;
+  overflow: hidden;
 
   .asset-identifier {
     position: absolute;
@@ -37,22 +37,29 @@ $whiteColor: #fff;
     display: flex;
     flex-direction: row;
     margin: 8px;
+    gap: 1rem;
+    align-items: center;
     > div {
       padding: 3px;
+      display: flex;
       margin-right: 3px;
-      background: #fff;
-      @include border-radius;
+      border-radius: 20px;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      .dot {
+        background: var(--bgcolor);
+        width: 15px;
+        height: 15px;
+        @include border-radius;
+        border: 3px solid #fff;
+      }
     }
   }
-  .emptyDay {
-    width: 1px;
+  .asset-timeline-action.emptyDay {
+    min-width: 0.1vw;
+    max-width: 1vw;
     height: 80px;
-  }
-
-  .asset-timeline-empty-day {
-    height: 1px;
-    width: 1px;
-    background: red;
   }
 
   .day {
@@ -76,10 +83,10 @@ $whiteColor: #fff;
     justify-content: space-between;
   }
   .action.odd {
-    transform: translateY(11px);
+    transform: translateY(14px);
   }
   .action.even {
-    transform: translateY(-9px);
+    transform: translateY(-14px);
   }
 
   .asset-timeline-action.odd {
@@ -93,10 +100,11 @@ $whiteColor: #fff;
     flex: 0;
   }
   .milestone:first-of-type {
-    margin-left: 0;
+    margin-left: -2px;
   }
   .milestone:last-of-type {
-    margin-right: 0;
+    margin-right: -4px;
+    margin-left: 100px;
   }
 
   .even-wrap {
@@ -110,6 +118,11 @@ $whiteColor: #fff;
   .odd-wrap {
     .milestone {
       transform: translateY(14px);
+    }
+  }
+  .asset-timeline-action.odd {
+    &.milestone {
+      //opacity: 0;
     }
   }
   .asset-timeline-action.odd,
@@ -143,6 +156,7 @@ $whiteColor: #fff;
         position: absolute;
         padding: 0px 0;
         white-space: nowrap;
+        line-height: 1.5rem;
       }
     }
     &.action {

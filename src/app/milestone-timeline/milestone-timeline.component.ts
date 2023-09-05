@@ -21,6 +21,7 @@ export class MilestoneTimelineComponent implements OnInit {
   countMilestones: number = 0;
 
   ngOnInit() {
+    console.log('assets', this.assets);
     this.localAssets = this.assets;
     // define timeline per asset
     this.defineTimeline();
@@ -33,6 +34,8 @@ export class MilestoneTimelineComponent implements OnInit {
       // foreach asset
 
       asset.actions.map((action) => {
+        console.log('action.date', action.date);
+
         // set action first date and last date
         if (action.date.isBefore(firstDate)) {
           firstDate = action.date;
@@ -83,21 +86,44 @@ export class MilestoneTimelineComponent implements OnInit {
     });
 
     console.log('actions added daysArray per asset', this.daysArray);
+    // make sure we have all days in both rows
+    if (!this.daysArray[index].days['odd'][this.daysInTimeline]) {
+      // append final day
+      this.daysArray[index].days['odd'][this.daysInTimeline] = undefined;
+    }
+    if (!this.daysArray[index].days['even'][this.daysInTimeline]) {
+      // append final day
+      this.daysArray[index].days['even'][this.daysInTimeline] = undefined;
+    }
   }
   addAction(action, index, actionIndex, daysFromStart) {
-    this.daysArray[index].days[actionIndex % 2 === 0 ? 'even' : 'odd'][
-      daysFromStart
-    ] = {
-      daysFromStart: daysFromStart,
-      ...action,
-    };
+    if (action.type === 'milestone') {
+      // add to both rows
+      this.daysArray[index].days['even'][daysFromStart] = {
+        daysFromStart: daysFromStart,
+        ...action,
+      };
+
+      this.daysArray[index].days['odd'][daysFromStart] = {
+        daysFromStart: daysFromStart,
+        ...action,
+      };
+    } else {
+      // add to one row
+      this.daysArray[index].days[actionIndex % 2 === 0 ? 'even' : 'odd'][
+        daysFromStart
+      ] = {
+        daysFromStart: daysFromStart,
+        ...action,
+      };
+    }
   }
 
   getPeriod(asset) {
     return (
-      asset.firstDate.format('MMM Do YY') +
-      '-' +
-      asset.lastDate.format('MMM Do YY')
+      asset.firstDate.format('MMM Do YYYY') +
+      ' - ' +
+      asset.lastDate.format('MMM Do YYYY')
     );
   }
 }

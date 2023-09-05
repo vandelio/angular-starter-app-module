@@ -12,8 +12,11 @@
 >
   <div class="asset-timeline" [ngClass]="'asset-timeline-' + indexOfelement">
     <div class="asset-identifier">
-      <div>Asset: {{ asset.name }}.</div>
-      <div>Period: {{ getPeriod(asset) }}</div>
+      <div>
+        <div class="dot"></div>
+        <div>{{ asset.name }}</div>
+      </div>
+      <div>{{ getPeriod(asset) }}</div>
     </div>
 
     <!-- Can become component -->
