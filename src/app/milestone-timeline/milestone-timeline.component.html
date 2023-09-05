@@ -36,7 +36,9 @@
     <div class="odd-wrap">
       <div
         class="asset-timeline-action odd"
-        *ngFor="let action of asset.days.odd"
+        *ngFor="let action of asset.days"
+        [class.layer1]="action?.layer === 'top'"
+        [class.layer2]="action?.layer === 'bottom'"
         [class.action]="action?.action && !action?.type"
         [class.emptyDay]="!action"
         [class.milestone]="action?.type === 'milestone'"
@@ -60,7 +62,7 @@
     <div class="timeline"></div>
 
     <!-- .even -->
-    <div class="even-wrap">
+    <!-- <div class="even-wrap">
       <div
         class="asset-timeline-action even"
         *ngFor="let action of asset.days.even"
@@ -82,6 +84,7 @@
         </ng-container>
       </div>
     </div>
+    -->
   </div>
 
   <ng-template #emptyRowAction>

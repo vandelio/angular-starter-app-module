@@ -142,7 +142,7 @@ export class AppComponent {
 
   generateRandomData() {
     let count = 0;
-    while (count < 12) {
+    while (count < 8) {
       this.generatedData.push({
         date: this.someRandomDate(
           moment(),

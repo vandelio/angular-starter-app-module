@@ -13,15 +13,19 @@ export interface AssetInTimeline {
 export interface AssetAction {
   date: moment.Moment;
   action: string;
+  daysFromStart: number;
   type?: string; // used to identify the first inject : today block
+  layer: string;
 }
 
 export interface TimelineDays {
   name?: string;
-  days?: {
-    odd: (AssetAction[] | null[])[];
-    even: (AssetAction[] | null[])[];
-  };
+  //days?: {
+  //  odd: (AssetAction[] | null[])[];
+  //  even: (AssetAction[] | null[])[];
+  //};
+  days: AssetAction[] | null[];
+  milestones: AssetAction[];
   firstDate?: moment.Moment;
   lastDate?: moment.Moment;
 }

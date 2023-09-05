@@ -59,12 +59,15 @@ export class MilestoneTimelineComponent implements OnInit {
 
   createDaysArray(index) {
     // Create array to feed the days
-    this.daysArray[index] = { days: { odd: [], even: [] } };
+    this.daysArray[index] = {
+      days: [],
+      milestones: [],
+    };
 
     // add an entry for each of the days in the period
     this.count = 0;
     while (this.count <= this.daysInTimeline) {
-      this.daysArray[index].days[this.count % 2 === 0 ? 'even' : 'odd'] = [];
+      this.daysArray[index].days = [];
       this.count++;
     }
     console.log('created daysArray per asset', this.daysArray);
@@ -87,24 +90,25 @@ export class MilestoneTimelineComponent implements OnInit {
 
     console.log('actions added daysArray per asset', this.daysArray);
     // make sure we have all days in both rows
-    if (!this.daysArray[index].days['odd'][this.daysInTimeline]) {
+    if (!this.daysArray[index].days[this.daysInTimeline]) {
       // append final day
-      this.daysArray[index].days['odd'][this.daysInTimeline] = undefined;
+      this.daysArray[index].days[this.daysInTimeline] = undefined;
     }
-    if (!this.daysArray[index].days['even'][this.daysInTimeline]) {
+    if (!this.daysArray[index].days[this.daysInTimeline]) {
       // append final day
-      this.daysArray[index].days['even'][this.daysInTimeline] = undefined;
+      this.daysArray[index].days[this.daysInTimeline] = undefined;
     }
   }
   addAction(action, index, actionIndex, daysFromStart) {
-    if (action.type === 'milestone') {
+    // add to one row
+    this.daysArray[index].days[daysFromStart] = {
+      daysFromStart: daysFromStart,
+      layer: actionIndex % 2 === 0 ? 'top' : 'bottom',
+      ...action,
+    };
+    /*if (action.type === 'milestone') {
       // add to both rows
-      this.daysArray[index].days['even'][daysFromStart] = {
-        daysFromStart: daysFromStart,
-        ...action,
-      };
-
-      this.daysArray[index].days['odd'][daysFromStart] = {
+      this.daysArray[index].milestones[daysFromStart] = {
         daysFromStart: daysFromStart,
         ...action,
       };
@@ -114,9 +118,10 @@ export class MilestoneTimelineComponent implements OnInit {
         daysFromStart
       ] = {
         daysFromStart: daysFromStart,
+        layer: actionIndex % 2 === 0 ? '1' : '2',
         ...action,
       };
-    }
+    } */
   }
 
   getPeriod(asset) {

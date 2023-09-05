@@ -57,8 +57,9 @@ $whiteColor: #fff;
     }
   }
   .asset-timeline-action.emptyDay {
-    min-width: 0.1vw;
-    max-width: 1vw;
+    //min-width: 0.1vw;
+    //max-width: 1vw;
+    width: 0;
     height: 80px;
   }
 
@@ -81,6 +82,9 @@ $whiteColor: #fff;
     width: 100%;
     flex-basis: 100%;
     justify-content: space-between;
+  }
+  .milestones-wrap {
+    height: 10px;
   }
   .action.odd {
     transform: translateY(14px);
@@ -198,14 +202,22 @@ $whiteColor: #fff;
       padding: 5px 12px;
       white-space: nowrap;
     }
+    &.layer2 {
+      transform: translateY(-50px);
+      .action-timeline-line-to-dot {
+        height: 70px;
+      }
+    }
+    &.layer1 {
+      transform: translateY(0px);
+    }
 
-    /*    &.action {
+    /*  &.layer2:not(.milestone) {
       flex-direction: column-reverse;
     }
-    &:nth-child(odd of .action) {
+    &.layer1:not(.milestone) {
       flex-direction: column;
-    }
-*/
+    } */
   }
   .odd-wrap .action {
     flex-direction: column;
