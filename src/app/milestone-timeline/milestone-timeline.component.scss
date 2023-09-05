@@ -15,6 +15,7 @@ $whiteColor: #fff;
   position: absolute;
   top: 50%;
   bottom: 50%;
+  z-index: 0;
 }
 
 //asset timeline
@@ -43,6 +44,11 @@ $whiteColor: #fff;
       @include border-radius;
     }
   }
+  .emptyDay {
+    width: 1px;
+    height: 80px;
+  }
+
   .asset-timeline-empty-day {
     height: 1px;
     width: 1px;
@@ -53,26 +59,79 @@ $whiteColor: #fff;
     display: flex;
     flex-direction: column;
   }
-  .asset-timeline-action {
+  .rows-wrapper {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+
+  .odd-wrap,
+  .even-wrap {
+    display: flex;
+    height: inherit;
+    width: 100%;
+    flex-basis: 100%;
+    justify-content: space-between;
+  }
+  .action.odd {
+    transform: translateY(11px);
+  }
+  .action.even {
+    transform: translateY(-9px);
+  }
+
+  .asset-timeline-action.odd {
+    flex-direction: column-reverse;
+  }
+  .asset-timeline-action.even {
+    flex-direction: column;
+  }
+
+  .milestone {
+    flex: 0;
+  }
+  .milestone:first-of-type {
+    margin-left: 0;
+  }
+  .milestone:last-of-type {
+    margin-right: 0;
+  }
+
+  .even-wrap {
+    .milestone {
+      transform: translateY(-14px);
+      flex-direction: column-reverse;
+      align-self: flex-start;
+    }
+  }
+
+  .odd-wrap {
+    .milestone {
+      transform: translateY(14px);
+    }
+  }
+  .asset-timeline-action.odd,
+  .asset-timeline-action.even {
     display: flex;
     align-items: center;
     position: relative;
     height: inherit;
-    flex-direction: column-reverse;
-
+    z-index: 1;
     .action-timeline-dot,
     .action-timeline-line-to-dot {
       display: none;
     }
 
     &.milestone {
-      width: 100px;
-      margin-left: 0;
+      width: auto;
+      /*margin-left: 0;
       position: relative;
       left: 0;
       margin-top: auto;
       margin-bottom: auto;
-      flex: 0;
+      flex: 0; */
       .action-label {
         color: $whiteColor;
         background: $blackColor;
@@ -87,19 +146,25 @@ $whiteColor: #fff;
       }
     }
     &.action {
-      .action-timeline-dot {
-        display: block;
-        border-radius: 100%;
-        width: 15px;
-        height: 15px;
-        position: relative;
-        background: var(--bgcolor);
-        border: 3px solid $whiteColor;
+      height: 100%;
+
+      .action-timeline-dot-wrap {
+        .action-timeline-dot {
+          display: block;
+          border-radius: 100%;
+          width: 15px;
+          height: 15px;
+          position: relative;
+          background: var(--bgcolor);
+          border: 3px solid $whiteColor;
+        }
       }
+
       .action-timeline-line-to-dot {
         display: block;
         position: relative;
-        height: 10.5%; // controls space from dot to action label
+        //height: 10.5%; // controls space from dot to action label
+        height: 20px;
         width: 2px;
         background: var(--bgcolor);
       }
@@ -120,12 +185,19 @@ $whiteColor: #fff;
       white-space: nowrap;
     }
 
-    &.action {
+    /*    &.action {
       flex-direction: column-reverse;
     }
     &:nth-child(odd of .action) {
       flex-direction: column;
     }
+*/
+  }
+  .odd-wrap .action {
+    flex-direction: column;
+  }
+  .even-wrap .action {
+    flex-direction: column-reverse;
   }
 
   &.asset-timeline-0 {

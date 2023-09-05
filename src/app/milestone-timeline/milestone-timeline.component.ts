@@ -29,7 +29,11 @@ export class MilestoneTimelineComponent implements OnInit {
   defineTimeline() {
     let firstDate, lastDate;
     this.localAssets.forEach((asset, index) => {
+      ///////////////////
+      // foreach asset
+
       asset.actions.map((action) => {
+        // set action first date and last date
         if (action.date.isBefore(firstDate)) {
           firstDate = action.date;
         }
@@ -40,13 +44,14 @@ export class MilestoneTimelineComponent implements OnInit {
 
       // calculate how many days is in between first and last date.
       this.daysInTimeline = lastDate.diff(firstDate, 'days');
+      console.log('daysInTimeline', this.daysInTimeline);
       // create days arrays, which controls timeline
       this.createDaysArray(index);
 
-      console.log('this.daysArray', this.daysArray);
       // add actions to days array
       this.addActionsToDaysArray(asset, index, firstDate, lastDate);
     });
+    console.log('daysArray', this.daysArray);
   }
 
   createDaysArray(index) {
@@ -56,11 +61,10 @@ export class MilestoneTimelineComponent implements OnInit {
     // add an entry for each of the days in the period
     this.count = 0;
     while (this.count <= this.daysInTimeline) {
-      this.daysArray[index].days[this.count % 2 === 0 ? 'even' : 'odd'].push(
-        []
-      );
+      this.daysArray[index].days[this.count % 2 === 0 ? 'even' : 'odd'] = [];
       this.count++;
     }
+    console.log('created daysArray per asset', this.daysArray);
   }
 
   addActionsToDaysArray(asset, index, firstDate, lastDate) {
@@ -68,15 +72,25 @@ export class MilestoneTimelineComponent implements OnInit {
     this.daysArray[index].lastDate = lastDate;
     this.daysArray[index].name = asset.name;
 
-    asset.actions.map((action) => {
+    asset.actions.map((action, actionIndex) => {
       // add action to the specific day
-      this.addAction(action, index, action.date.diff(firstDate, 'days'));
+      this.addAction(
+        action,
+        index,
+        actionIndex,
+        action.date.diff(firstDate, 'days')
+      );
     });
+
+    console.log('actions added daysArray per asset', this.daysArray);
   }
-  addAction(action, index, daysFromStart) {
-    this.daysArray[index].days[index % 2 === 0 ? 'even' : 'odd'][
+  addAction(action, index, actionIndex, daysFromStart) {
+    this.daysArray[index].days[actionIndex % 2 === 0 ? 'even' : 'odd'][
       daysFromStart
-    ].push({ ...action });
+    ] = {
+      daysFromStart: daysFromStart,
+      ...action,
+    };
   }
 
   getPeriod(asset) {
