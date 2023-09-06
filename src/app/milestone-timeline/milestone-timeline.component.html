@@ -33,9 +33,9 @@
 <ng-template #timeline let-asset="asset" let-indexOfelement="indexOfelement">
   <!-- odd -->
   <div class="rows-wrapper">
-    <div class="odd-wrap">
+    <div class="day-wrapper">
       <div
-        class="asset-timeline-action odd"
+        class="asset-timeline-action"
         *ngFor="let action of asset.days"
         [class.layer1]="action?.layer === 'top'"
         [class.layer2]="action?.layer === 'bottom'"

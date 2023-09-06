@@ -6,19 +6,20 @@ $whiteColor: #fff;
 @mixin border-radius {
   border-radius: 20px;
 }
-
 // Timeline line
 .timeline {
   height: 8px;
-  width: 100%;
+  width: calc(100vw - 80px);
   background: #000;
-  position: relative;
-
+  position: absolute;
+  top: 50%;
+  bottom: 50%;
   z-index: 0;
 }
 
 //asset timeline
 .asset-timeline {
+  font-family: 'Open Sans', sans-serif;
   background: #ccc;
   padding: 35px 35px 35px 35px;
   display: flex;
@@ -28,7 +29,6 @@ $whiteColor: #fff;
   min-height: 160px;
   position: relative;
   margin-bottom: 2px;
-  overflow: hidden;
 
   .asset-identifier {
     position: absolute;
@@ -57,9 +57,8 @@ $whiteColor: #fff;
     }
   }
   .asset-timeline-action.emptyDay {
-    //min-width: 0.1vw;
-    //max-width: 1vw;
-    width: 0;
+    min-width: 0.01vw;
+    max-width: 0.01vw;
     height: 80px;
   }
 
@@ -75,29 +74,12 @@ $whiteColor: #fff;
     justify-content: space-between;
   }
 
-  .odd-wrap,
-  .even-wrap {
+  .day-wrapper {
     display: flex;
     height: inherit;
     width: 100%;
     flex-basis: 100%;
     justify-content: space-between;
-  }
-  .milestones-wrap {
-    height: 10px;
-  }
-  .action.odd {
-    transform: translateY(14px);
-  }
-  .action.even {
-    transform: translateY(-14px);
-  }
-
-  .asset-timeline-action.odd {
-    flex-direction: column-reverse;
-  }
-  .asset-timeline-action.even {
-    flex-direction: column;
   }
 
   .milestone {
@@ -105,32 +87,25 @@ $whiteColor: #fff;
   }
   .milestone:first-of-type {
     margin-left: -2px;
+    position: sticky;
+    left: 0px;
+    margin-right: 10px;
   }
   .milestone:last-of-type {
     margin-right: -4px;
     margin-left: 100px;
+    position: sticky;
+    right: 40px;
   }
 
-  .even-wrap {
-    .milestone {
-      transform: translateY(-14px);
-      flex-direction: column-reverse;
-      align-self: flex-start;
-    }
+  .milestone {
+    transform: translateY(0px);
+    flex-direction: column-reverse;
+    align-self: flex-start;
   }
 
-  .odd-wrap {
-    .milestone {
-      transform: translateY(14px);
-    }
-  }
-  .asset-timeline-action.odd {
-    &.milestone {
-      //opacity: 0;
-    }
-  }
-  .asset-timeline-action.odd,
-  .asset-timeline-action.even {
+  .asset-timeline-action {
+    font-size: 16px;
     display: flex;
     align-items: center;
     position: relative;
@@ -142,6 +117,9 @@ $whiteColor: #fff;
     }
 
     &.milestone {
+      flex-direction: column-reverse;
+      margin-top: auto;
+      margin-bottom: auto;
       width: auto;
       /*margin-left: 0;
       position: relative;
@@ -154,6 +132,9 @@ $whiteColor: #fff;
         background: $blackColor;
         border: 2px solid #fff;
         font-size: 0.8rem;
+        @include border-radius;
+        padding: 5px 12px;
+        white-space: nowrap;
       }
       .action-label-date {
         height: 0;
@@ -165,6 +146,9 @@ $whiteColor: #fff;
     }
     &.action {
       height: 100%;
+      font-size: 0.9rem;
+      width: auto;
+      min-width: 100px;
 
       .action-timeline-dot-wrap {
         .action-timeline-dot {
@@ -189,43 +173,34 @@ $whiteColor: #fff;
       .action-label-date {
         display: block;
       }
+
+      .action-label {
+        @include border-radius;
+
+        background: var(--bgcolor);
+        padding: 5px 12px;
+        white-space: nowrap;
+        width: auto;
+        min-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
     }
 
     span {
       padding: 5px;
       font-size: 13px;
     }
-    .action-label {
-      @include border-radius;
 
-      background: var(--bgcolor);
-      padding: 5px 12px;
-      white-space: nowrap;
+    &.action {
+      flex-direction: column-reverse;
+      transform: translateY(7px);
     }
-    &.layer2 {
-      transform: translateY(-50px);
-      .action-timeline-line-to-dot {
-        height: 70px;
-      }
-    }
-    &.layer1 {
+    &:nth-child(odd of .action) {
+      flex-direction: column;
       transform: translateY(0px);
     }
-
-    /*  &.layer2:not(.milestone) {
-      flex-direction: column-reverse;
-    }
-    &.layer1:not(.milestone) {
-      flex-direction: column;
-    } */
   }
-  .odd-wrap .action {
-    flex-direction: column;
-  }
-  .even-wrap .action {
-    flex-direction: column-reverse;
-  }
-
   &.asset-timeline-0 {
     --bgcolor: rgb(158, 109, 250);
   }

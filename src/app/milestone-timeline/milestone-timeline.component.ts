@@ -19,6 +19,7 @@ export class MilestoneTimelineComponent implements OnInit {
   daysInTimeline: number = 0;
   daysArray: TimelineDays[] = [];
   countMilestones: number = 0;
+  actionCount: number = 0;
 
   ngOnInit() {
     console.log('assets', this.assets);
@@ -103,7 +104,7 @@ export class MilestoneTimelineComponent implements OnInit {
     // add to one row
     this.daysArray[index].days[daysFromStart] = {
       daysFromStart: daysFromStart,
-      layer: actionIndex % 2 === 0 ? 'top' : 'bottom',
+
       ...action,
     };
     /*if (action.type === 'milestone') {
