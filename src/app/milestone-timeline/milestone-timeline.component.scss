@@ -20,11 +20,14 @@ $whiteColor: #fff;
 
 //asset timeline
 .asset-timeline-wrap {
-  --timeline-height: 167px;
+  --timeline-height: 172px;
   --line-to-dot: 22px;
+  --label-date-line-height: 1.3rem;
+  --date-height: 25px;
 
   font-family: 'Open Sans', sans-serif;
-  background: #ccc;
+  background: #fff;
+  color: #555;
   padding: 0 35px 35px 35px;
   display: flex;
   flex-direction: column;
@@ -40,7 +43,7 @@ $whiteColor: #fff;
     left: 0;
     display: flex;
     flex-direction: row;
-    margin: 8px;
+    margin: 8px 8px 8px 0;
     gap: 1rem;
     align-items: center;
     > div {
@@ -103,7 +106,7 @@ $whiteColor: #fff;
   .day-wrapper {
     display: flex;
     height: inherit;
-    min-height: 160px;
+    min-height: var(--timeline-height);
     width: 100%;
     flex-basis: 100%;
     justify-content: space-between;
@@ -129,18 +132,20 @@ $whiteColor: #fff;
       .action-label {
         color: $whiteColor;
         background: $blackColor;
-        border: 2px solid #fff;
+        border: 3px solid #fff;
         font-size: 0.8rem;
         @include border-radius;
         padding: 5px 12px;
         white-space: nowrap;
+        text-align: center;
+        min-width: 60px;
       }
       .action-label-date {
         height: 0;
         position: absolute;
         padding: 0px 0;
         white-space: nowrap;
-        line-height: 1.5rem;
+        line-height: var(--label-date-line-height);
       }
     }
     &.action {
@@ -171,13 +176,14 @@ $whiteColor: #fff;
       }
       .action-label-date {
         display: block;
+        height: var(--date-height);
       }
 
       .action-label {
         @include border-radius;
 
         background: var(--bgcolor);
-        padding: 5px 12px;
+        padding: 6px 15px;
         white-space: nowrap;
         width: auto;
         min-width: 100px;
@@ -187,19 +193,17 @@ $whiteColor: #fff;
     }
 
     span {
-      padding: 5px;
+      line-height: var(--label-date-line-height);
       font-size: 13px;
     }
 
     &.action {
       flex-direction: column-reverse;
-      //transform: translateY(100%);
       margin-top: auto;
     }
     &:nth-child(odd of .action) {
       margin-top: 0;
       flex-direction: column;
-      transform: translateY(0);
     }
   }
   &.asset-timeline-0 {

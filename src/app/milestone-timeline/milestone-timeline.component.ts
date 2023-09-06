@@ -34,9 +34,8 @@ export class MilestoneTimelineComponent implements OnInit {
       ///////////////////
       // foreach asset
 
+      // this could be done more smooth - maybe reduce
       asset.actions.map((action) => {
-        console.log('action.date', action.date);
-
         // set action first date and last date
         if (action.date.isBefore(firstDate)) {
           firstDate = action.date;
@@ -48,81 +47,47 @@ export class MilestoneTimelineComponent implements OnInit {
 
       // calculate how many days is in between first and last date.
       this.daysInTimeline = lastDate.diff(firstDate, 'days');
-      console.log('daysInTimeline', this.daysInTimeline);
-      // create days arrays, which controls timeline
-      this.createDaysArray(index);
-
       // add actions to days array
       this.addActionsToDaysArray(asset, index, firstDate, lastDate);
     });
-    console.log('daysArray', this.daysArray);
-  }
-
-  createDaysArray(index) {
-    // Create array to feed the days
-    this.daysArray[index] = {
-      days: [],
-      milestones: [],
-    };
-
-    // add an entry for each of the days in the period
-    this.count = 0;
-    while (this.count <= this.daysInTimeline) {
-      this.daysArray[index].days = [];
-      this.count++;
-    }
-    console.log('created daysArray per asset', this.daysArray);
   }
 
   addActionsToDaysArray(asset, index, firstDate, lastDate) {
-    this.daysArray[index].firstDate = firstDate;
-    this.daysArray[index].lastDate = lastDate;
-    this.daysArray[index].name = asset.name;
+    this.daysArray[index] = {
+      days: [],
+      firstDate: firstDate,
+      lastDate: lastDate,
+      name: asset.name,
+    };
 
     asset.actions.map((action, actionIndex) => {
       // add action to the specific day
-      this.addAction(
-        action,
-        index,
-        actionIndex,
-        action.date.diff(firstDate, 'days')
-      );
+      this.addAction(action, index, action.date.diff(firstDate, 'days'));
     });
-
-    console.log('actions added daysArray per asset', this.daysArray);
-    // make sure we have all days in both rows
-    if (!this.daysArray[index].days[this.daysInTimeline]) {
-      // append final day
-      this.daysArray[index].days[this.daysInTimeline] = undefined;
-    }
-    if (!this.daysArray[index].days[this.daysInTimeline]) {
-      // append final day
-      this.daysArray[index].days[this.daysInTimeline] = undefined;
-    }
   }
-  addAction(action, index, actionIndex, daysFromStart) {
-    // add to one row
-    this.daysArray[index].days[daysFromStart] = {
-      daysFromStart: daysFromStart,
-
-      ...action,
-    };
-    /*if (action.type === 'milestone') {
-      // add to both rows
-      this.daysArray[index].milestones[daysFromStart] = {
+  addAction(action, index, daysFromStart) {
+    // TODO: make sure we are not overwriting an existing on day
+    if (this.isDayEmpty(this.daysArray[index].days[daysFromStart])) {
+      this.daysArray[index].days[daysFromStart] = {
         daysFromStart: daysFromStart,
         ...action,
       };
     } else {
-      // add to one row
-      this.daysArray[index].days[actionIndex % 2 === 0 ? 'even' : 'odd'][
-        daysFromStart
-      ] = {
+      // day not empty
+      // 2 options
+      // change each day to array, to contain multiple
+
+      // just inject it after
+      // make room for it
+      this.daysArray[index].days.splice(daysFromStart + 1, 0, {
         daysFromStart: daysFromStart,
-        layer: actionIndex % 2 === 0 ? '1' : '2',
         ...action,
-      };
-    } */
+      });
+    }
+  }
+
+  isDayEmpty(day) {
+    return day === undefined;
   }
 
   getPeriod(asset) {

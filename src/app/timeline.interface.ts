@@ -20,12 +20,7 @@ export interface AssetAction {
 
 export interface TimelineDays {
   name?: string;
-  //days?: {
-  //  odd: (AssetAction[] | null[])[];
-  //  even: (AssetAction[] | null[])[];
-  //};
   days: AssetAction[] | null[];
-  milestones: AssetAction[];
   firstDate?: moment.Moment;
   lastDate?: moment.Moment;
 }
