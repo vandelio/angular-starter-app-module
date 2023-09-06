@@ -15,7 +15,6 @@ export interface AssetAction {
   action: string;
   daysFromStart: number;
   type?: string; // used to identify the first inject : today block
-  layer: string;
 }
 
 export interface TimelineDays {
