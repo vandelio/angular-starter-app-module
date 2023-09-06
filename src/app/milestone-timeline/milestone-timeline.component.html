@@ -10,7 +10,10 @@
   let-asset="asset"
   let-indexOfelement="indexOfelement"
 >
-  <div class="asset-timeline" [ngClass]="'asset-timeline-' + indexOfelement">
+  <div
+    class="asset-timeline-wrap"
+    [ngClass]="'asset-timeline-' + indexOfelement"
+  >
     <div class="asset-identifier">
       <div>
         <div class="dot"></div>
@@ -18,76 +21,52 @@
       </div>
       <div>{{ getPeriod(asset) }}</div>
     </div>
-
-    <!-- Can become component -->
-    <ng-container
-      [ngTemplateOutlet]="timeline"
-      [ngTemplateOutletContext]="{
-        asset: asset,
-        indexOfelement: indexOfelement
-      }"
-    ></ng-container>
+    <div class="asset-timeline">
+      <ng-container
+        [ngTemplateOutlet]="timeline"
+        [ngTemplateOutletContext]="{
+          asset: asset,
+          indexOfelement: indexOfelement
+        }"
+      ></ng-container>
+    </div>
   </div>
 </ng-template>
 
+<!-- Can become component -->
 <ng-template #timeline let-asset="asset" let-indexOfelement="indexOfelement">
-  <!-- odd -->
   <div class="rows-wrapper">
     <div class="day-wrapper">
       <div
         class="asset-timeline-action"
         *ngFor="let action of asset.days"
-        [class.layer1]="action?.layer === 'top'"
-        [class.layer2]="action?.layer === 'bottom'"
         [class.action]="action?.action && !action?.type"
         [class.emptyDay]="!action"
         [class.milestone]="action?.type === 'milestone'"
       >
-        <ng-container *ngIf="action; else emptyRowAction">
-          <span class="action-label-date">
-            {{ action.date.format('MMM Do, YYYY') }}
-          </span>
-          <div class="action-label">
-            {{ action.action }}
-          </div>
-          <div class="action-timeline-line-to-dot"></div>
-
-          <div class="action-timeline-dot-wrap">
-            <div class="action-timeline-dot"></div>
-          </div>
-        </ng-container>
+        <ng-container
+          *ngIf="action; then rowAction; else emptyRowAction"
+        ></ng-container>
       </div>
     </div>
-
     <div class="timeline"></div>
-
-    <!-- .even -->
-    <!-- <div class="even-wrap">
-      <div
-        class="asset-timeline-action even"
-        *ngFor="let action of asset.days.even"
-        [class.action]="action?.action && !action?.type"
-        [class.emptyDay]="!action"
-        [class.milestone]="action?.type === 'milestone'"
-      >
-        <ng-container *ngIf="action; else emptyRowAction">
-          <span class="action-label-date">
-            {{ action.date.format('MMM Do, YYYY') }}
-          </span>
-          <div class="action-label">
-            {{ action.action }}
-          </div>
-          <div class="action-timeline-line-to-dot"></div>
-          <div class="action-timeline-dot-wrap">
-            <div class="action-timeline-dot"></div>
-          </div>
-        </ng-container>
-      </div>
-    </div>
-    -->
   </div>
+</ng-template>
 
-  <ng-template #emptyRowAction>
-    <div class="emptyDay asset-timeline-action"></div>
-  </ng-template>
+<ng-template #rowAction let-action>
+  <span class="action-label-date">
+    {{ action.date.format('MMM Do, YYYY') }}
+  </span>
+  <div class="action-label">
+    {{ action.action }}
+  </div>
+  <div class="action-timeline-line-to-dot"></div>
+
+  <div class="action-timeline-dot-wrap">
+    <div class="action-timeline-dot"></div>
+  </div>
+</ng-template>
+
+<ng-template #emptyRowAction>
+  <div class="emptyDay"></div>
 </ng-template>

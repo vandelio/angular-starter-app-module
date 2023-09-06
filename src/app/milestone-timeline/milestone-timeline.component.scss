@@ -15,23 +15,27 @@ $whiteColor: #fff;
   top: 50%;
   bottom: 50%;
   z-index: 0;
+  transform: translateY(-4px);
 }
 
 //asset timeline
-.asset-timeline {
+.asset-timeline-wrap {
+  --timeline-height: 167px;
+  --line-to-dot: 22px;
+
   font-family: 'Open Sans', sans-serif;
   background: #ccc;
-  padding: 35px 35px 35px 35px;
+  padding: 0 35px 35px 35px;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
   height: auto;
-  min-height: 160px;
+  min-height: var(--timeline-height);
   position: relative;
   margin-bottom: 2px;
 
   .asset-identifier {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     display: flex;
@@ -56,30 +60,14 @@ $whiteColor: #fff;
       }
     }
   }
+  .asset-timeline {
+    display: flex;
+    flex-direction: column;
+  }
   .asset-timeline-action.emptyDay {
     min-width: 0.01vw;
     max-width: 0.01vw;
     height: 80px;
-  }
-
-  .day {
-    display: flex;
-    flex-direction: column;
-  }
-  .rows-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    flex-basis: 100%;
-    justify-content: space-between;
-  }
-
-  .day-wrapper {
-    display: flex;
-    height: inherit;
-    width: 100%;
-    flex-basis: 100%;
-    justify-content: space-between;
   }
 
   .milestone {
@@ -99,9 +87,26 @@ $whiteColor: #fff;
   }
 
   .milestone {
-    transform: translateY(0px);
+    transform: translateY(-1px);
     flex-direction: column-reverse;
     align-self: flex-start;
+  }
+
+  .day {
+    display: flex;
+    flex-direction: column;
+  }
+  .rows-wrapper {
+    position: relative;
+  }
+
+  .day-wrapper {
+    display: flex;
+    height: inherit;
+    min-height: 160px;
+    width: 100%;
+    flex-basis: 100%;
+    justify-content: space-between;
   }
 
   .asset-timeline-action {
@@ -121,12 +126,6 @@ $whiteColor: #fff;
       margin-top: auto;
       margin-bottom: auto;
       width: auto;
-      /*margin-left: 0;
-      position: relative;
-      left: 0;
-      margin-top: auto;
-      margin-bottom: auto;
-      flex: 0; */
       .action-label {
         color: $whiteColor;
         background: $blackColor;
@@ -166,7 +165,7 @@ $whiteColor: #fff;
         display: block;
         position: relative;
         //height: 10.5%; // controls space from dot to action label
-        height: 20px;
+        height: var(--line-to-dot);
         width: 2px;
         background: var(--bgcolor);
       }
@@ -194,15 +193,17 @@ $whiteColor: #fff;
 
     &.action {
       flex-direction: column-reverse;
-      transform: translateY(7px);
+      //transform: translateY(100%);
+      margin-top: auto;
     }
     &:nth-child(odd of .action) {
+      margin-top: 0;
       flex-direction: column;
-      transform: translateY(0px);
+      transform: translateY(0);
     }
   }
   &.asset-timeline-0 {
-    --bgcolor: rgb(158, 109, 250);
+    --bgcolor: rgb(182, 172, 201);
   }
   &.asset-timeline-1 {
     --bgcolor: rgb(255, 135, 135);
