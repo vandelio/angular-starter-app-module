@@ -37,53 +37,6 @@ export class AppComponent {
           type: 'milestone',
         },
       ],
-      /*[
-        
-        {
-          date: moment(),
-          action: 'Today',
-          type: 'milestone',
-        },
-        {
-          date: moment().endOf('year'),
-          action: 'End Of Yeaar',
-          type: 'milestone',
-        },
-        {
-          date: moment().add(6, 'month').add(10, 'day'),
-          action: 'Contract End',
-          type: 'milestone',
-        },
-
-        {
-          date: moment().add(1, 'day'),
-          action: 'Consultation Call',
-        },
-        {
-          date: moment().add(7, 'day'),
-          action: 'Preventive maintenance',
-        },
-        {
-          date: moment().add(12, 'day'),
-          action: 'Renewal engagement',
-        },
-        {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(3, 'month').add(1, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(3, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(6, 'month').add(4, 'day'),
-          action: 'Replace Air Filter - last',
-        }
-      ],,´*/
     },
     {
       name: 'asdad32',
@@ -103,35 +56,46 @@ export class AppComponent {
           action: 'Contract End',
           type: 'milestone',
         },
-        /* 
+      ],
+    },
+    {
+      name: 'asdad3332',
+      actions: [
         {
-          date: moment().add(1, 'day'),
-          action: 'Consultation Call',
+          date: moment(),
+          action: 'Today',
+          type: 'milestone',
         },
         {
-          date: moment().add(2, 'day'),
-          action: 'Preventive maintenance',
+          date: moment().endOf('year'),
+          action: 'End Of Yeaar',
+          type: 'milestone',
         },
         {
-          date: moment().add(4, 'day'),
-          action: 'Renewal engagement',
+          date: moment().add(6, 'month').add(10, 'day'),
+          action: 'Contract End',
+          type: 'milestone',
+        },
+      ],
+    },
+    {
+      name: 'asdad32111',
+      actions: [
+        {
+          date: moment(),
+          action: 'Today',
+          type: 'milestone',
         },
         {
-          date: moment().add(1, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
+          date: moment().endOf('year'),
+          action: 'End Of Yeaar',
+          type: 'milestone',
         },
         {
-          date: moment().add(2, 'month').add(1, 'day'),
-          action: 'Replace Air Filter',
+          date: moment().add(6, 'month').add(10, 'day'),
+          action: 'Contract End',
+          type: 'milestone',
         },
-        {
-          date: moment().add(2, 'month').add(19, 'day'),
-          action: 'Replace Air Filter',
-        },
-        {
-          date: moment().add(6, 'month').add(4, 'day'),
-          action: 'Replace Air Filter - last',
-        },*/
       ],
     },
   ];
@@ -158,6 +122,8 @@ export class AppComponent {
     const test = [...this.assets[0].actions, ...this.generatedData];
     this.assets[0].actions = test;
     this.assets[1].actions = test;
+    this.assets[2].actions = test;
+    this.assets[3].actions = test;
     console.log(' this.assets', this.assets);
   }
   someRandomDate(date1, date2) {

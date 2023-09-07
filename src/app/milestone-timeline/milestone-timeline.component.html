@@ -17,9 +17,10 @@
     <div class="asset-identifier">
       <div>
         <div class="dot"></div>
-        <div>{{ asset.name }}</div>
+
+        <div>Timeline for: {{ asset.name }}</div>
       </div>
-      <div>{{ getPeriod(asset) }}</div>
+      <div>Period: {{ getPeriod(asset) }}</div>
     </div>
     <div class="asset-timeline">
       <ng-container

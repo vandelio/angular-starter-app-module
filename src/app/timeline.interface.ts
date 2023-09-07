@@ -13,7 +13,7 @@ export interface AssetInTimeline {
 export interface AssetAction {
   date: moment.Moment;
   action: string;
-  daysFromStart: number;
+  daysFromStart?: number;
   type?: string; // used to identify the first inject : today block
 }
 
